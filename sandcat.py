@@ -4,13 +4,7 @@ from sympy import And, Expr, Implies, Not, Or, Symbol, satisfiable  # type: igno
 
 
 def stringify(cat: "Category") -> str:
-    match cat:
-        case Atom(name):
-            return name
-        case Left(lhs, rhs):
-            return f"({stringify(lhs)} << {stringify(rhs)})"
-        case Right(lhs, rhs):
-            return f"({stringify(lhs)} >> {stringify(rhs)})"
+    return f"{cat}" if isinstance(cat, Atom) else f"({cat})"
 
 
 @dataclass(frozen=True)
