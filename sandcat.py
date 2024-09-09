@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from functools import reduce
 
 from sympy import And, Expr, Implies, Not, Or, Symbol, satisfiable  # type: ignore
 
@@ -54,26 +53,20 @@ class Atom(Category):
         return self.name
 
 
-def translate1(cat: Category, i: int) -> Expr:
+def translate(i: int, cat: Category) -> Expr:
     if isinstance(cat, Atom):
         return Symbol(f"{cat}{i}")
     elif isinstance(cat, Right):
-        lhs = translate1(cat.lhs, i - 1)
-        rhs = translate1(cat.rhs, i)
+        lhs = translate(i - 1, cat.lhs)
+        rhs = translate(i, cat.rhs)
         return Implies(lhs, rhs)
     elif isinstance(cat, Left):
-        lhs = translate1(cat.rhs, i + 1)
-        rhs = translate1(cat.lhs, i)
+        lhs = translate(i + 1, cat.rhs)
+        rhs = translate(i, cat.lhs)
         return Implies(lhs, rhs)
-
-
-def translateN(cats: list[Category]) -> Expr:
-    fml = [translate1(cats[i], i + 1) for i in range(len(cats))]
-    lhs = reduce(And, fml)
-    return lhs
 
 
 def check(cats: list[Category], cat: Category, **kwargs) -> bool:
-    lhs = translateN(cats)
-    rhs = reduce(Or, [translate1(cat, i) for i in range(1, len(cats) + 1)])
+    lhs = And(*[translate(i, cat) for (i, cat) in enumerate(cats)])
+    rhs = Or(*[translate(i, cat) for i in range(len(cats))])
     return not satisfiable(Not(Implies(lhs, rhs)), **kwargs)
