@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from functools import reduce
 from typing import override
 
-from sympy import Not, And, Implies, Expr, Symbol, satisfiable  # type: ignore
+from sympy import And, Expr, Implies, Not, Symbol, satisfiable  # type: ignore
 
 
 class Category(ABC):
