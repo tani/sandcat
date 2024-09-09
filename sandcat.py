@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
 from functools import reduce
 from typing import override
-from sympy import Symbol, Expr, satisfiable
+
+from sympy import Expr, Symbol, satisfiable  # type: ignore
 
 
 class Category(ABC):
@@ -25,10 +26,10 @@ class Left(Category):
     @override
     def __repr__(self) -> str:
         lhs = str(self.lhs)
-        if isinstance(self.lhs, (Left, Right)):
+        if isinstance(self.lhs, Left | Right):
             lhs = f"({lhs})"
         rhs = str(self.rhs)
-        if isinstance(self.rhs, (Left, Right)):
+        if isinstance(self.rhs, Left | Right):
             rhs = f"({rhs})"
         return f"{lhs} << {rhs}"
 
@@ -41,10 +42,10 @@ class Right(Category):
     @override
     def __repr__(self) -> str:
         rhs = str(self.rhs)
-        if isinstance(self.rhs, (Left, Right)):
+        if isinstance(self.rhs, Left | Right):
             rhs = f"({rhs})"
         lhs = str(self.lhs)
-        if isinstance(self.lhs, (Left, Right)):
+        if isinstance(self.lhs, Left | Right):
             lhs = f"({lhs})"
         return f"{lhs} >> {rhs}"
 
