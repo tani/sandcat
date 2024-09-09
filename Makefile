@@ -4,15 +4,18 @@ RUFF := uvx ruff
 EC := uvx --from editorconfig-checker ec
 PYTHON3 := uv run python3
 
-.PHONY: check check! test
 
+.PHONY: check fix test prepare
+
+prepare:
+	uv sync --all-extras
 
 check:
 	$(EC)
 	$(MYPY) $(FILES)
 	$(RUFF) check $(FILES)
 
-check!:
+fix:
 	$(RUFF) check $(FILES) --unsafe-fixes --fix
 
 test:
