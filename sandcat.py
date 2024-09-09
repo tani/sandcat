@@ -3,55 +3,48 @@ from dataclasses import dataclass
 from sympy import And, Expr, Implies, Not, Or, Symbol, satisfiable  # type: ignore
 
 
-def stringify(cat: "Category") -> str:
-    return f"{cat}" if isinstance(cat, Atom) else f"({cat})"
-
-
-@dataclass(frozen=True)
-class Atom:
-    name: str
-
+class Category:
     def __lshift__(self, other: "Category") -> "Category":
         return Left(self, other)
 
     def __rshift__(self, other: "Category") -> "Category":
         return Right(self, other)
+
+
+def stringify(cat: Category) -> str:
+    match cat:
+        case Atom():
+            return f"{cat}"
+        case Left() | Right():
+            return f"({cat})"
+        case _:
+            raise ValueError(f"Unknown category: {cat}")
+
+
+@dataclass(frozen=True)
+class Atom(Category):
+    name: str
 
     def __repr__(self) -> str:
         return self.name
 
 
 @dataclass(frozen=True)
-class Left:
-    lhs: "Category"
-    rhs: "Category"
-
-    def __lshift__(self, other: "Category") -> "Category":
-        return Left(self, other)
-
-    def __rshift__(self, other: "Category") -> "Category":
-        return Right(self, other)
+class Left(Category):
+    lhs: Category
+    rhs: Category
 
     def __repr__(self) -> str:
         return f"{stringify(self.lhs)} << {stringify(self.rhs)}"
 
 
 @dataclass(frozen=True)
-class Right:
-    lhs: "Category"
-    rhs: "Category"
-
-    def __lshift__(self, other: "Category") -> "Category":
-        return Left(self, other)
-
-    def __rshift__(self, other: "Category") -> "Category":
-        return Right(self, other)
+class Right(Category):
+    lhs: Category
+    rhs: Category
 
     def __repr__(self) -> str:
         return f"{stringify(self.lhs)} >> {stringify(self.rhs)}"
-
-
-Category = Atom | Left | Right
 
 
 def translate(i: int, cat: Category) -> Expr:
@@ -62,6 +55,8 @@ def translate(i: int, cat: Category) -> Expr:
             return Implies(translate(i + 1, rhs), translate(i, lhs))
         case Right(lhs, rhs):
             return Implies(translate(i - 1, lhs), translate(i, rhs))
+        case _:
+            raise ValueError(f"Unknown category: {cat}")
 
 
 def check(cats: list[Category], cat: Category, **kwargs) -> bool:
