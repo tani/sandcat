@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from functools import reduce
-from typing import override
 
 from sympy import And, Expr, Implies, Not, Symbol, satisfiable  # type: ignore
 
@@ -12,7 +11,6 @@ class Category(ABC):
     def __rshift__(self, other: "Category") -> "Right":
         return Right(self, other)
 
-    @override
     @abstractmethod
     def __repr__(self) -> str:
         pass
@@ -23,7 +21,6 @@ class Left(Category):
         self.lhs = lhs
         self.rhs = rhs
 
-    @override
     def __repr__(self) -> str:
         lhs = str(self.lhs)
         if isinstance(self.lhs, Left | Right):
@@ -39,7 +36,6 @@ class Right(Category):
         self.lhs = lhs
         self.rhs = rhs
 
-    @override
     def __repr__(self) -> str:
         rhs = str(self.rhs)
         if isinstance(self.rhs, Left | Right):
@@ -54,7 +50,6 @@ class Atom(Category):
     def __init__(self, name: str):
         self.name = name
 
-    @override
     def __repr__(self) -> str:
         return self.name
 
