@@ -76,6 +76,7 @@ def translateN(cats: list[Category]) -> Expr:
 def provable(expr: Expr, **kwargs) -> bool:
     return not satisfiable(Not(expr), **kwargs)
 
+
 def check(cats: list[Category], cat: Category, **kwargs) -> bool:
     lhs = translateN(cats)
     for i in range(1, len(cats) + 1):
@@ -87,7 +88,7 @@ def check(cats: list[Category], cat: Category, **kwargs) -> bool:
 A, B, C = Atom("A"), Atom("B"), Atom("C")
 
 
-# Example usage
-print(f"""{check([C << A, B, A], C, algorithm="z3")=}""")
-print(f"""{check([C << A, A, B], C, algorithm="z3")=}""")
-print(f"""{check([C << A, A, C >> C], C, algorithm="z3")=}""")
+# Test w.r.t. the above example
+assert check([C << A, B, A], C, algorithm="z3") is False
+assert check([C << A, A, B], C, algorithm="z3") is True
+assert check([C << A, A, C >> C], C, algorithm="z3") is True
