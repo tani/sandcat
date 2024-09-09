@@ -1,19 +1,9 @@
-[tool.poetry]
+[project]
 name = "sandcat"
 version = "0.1.0"
-description = "A CCG prover"
-authors = ["Masaya Taniguchi <ta2gch@gmail.com>"]
-license = "Apache Software License"
+description = "Add your description here"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.11"
-z3-solver = "^4.12.2.0"
-
-[tool.pyright]
-pythonVersion = "3.11"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.12"
+dependencies = [
+    "sympy>=1.13.2",
+]
