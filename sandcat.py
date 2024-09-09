@@ -1,24 +1,20 @@
-from abc import ABC, abstractmethod
+from dataclasses import dataclass
 
 from sympy import And, Expr, Implies, Not, Or, Symbol, satisfiable  # type: ignore
 
 
-class Category(ABC):
+class Category:
     def __lshift__(self, other: "Category") -> "Left":
         return Left(self, other)
 
     def __rshift__(self, other: "Category") -> "Right":
         return Right(self, other)
 
-    @abstractmethod
-    def __repr__(self) -> str:
-        pass
 
-
+@dataclass(frozen=True)
 class Left(Category):
-    def __init__(self, lhs: Category, rhs: Category):
-        self.lhs = lhs
-        self.rhs = rhs
+    lhs: Category
+    rhs: Category
 
     def __repr__(self) -> str:
         lhs = str(self.lhs)
@@ -30,10 +26,10 @@ class Left(Category):
         return f"{lhs} << {rhs}"
 
 
+@dataclass(frozen=True)
 class Right(Category):
-    def __init__(self, lhs: Category, rhs: Category):
-        self.lhs = lhs
-        self.rhs = rhs
+    lhs: Category
+    rhs: Category
 
     def __repr__(self) -> str:
         rhs = str(self.rhs)
@@ -45,9 +41,9 @@ class Right(Category):
         return f"{lhs} >> {rhs}"
 
 
+@dataclass(frozen=True)
 class Atom(Category):
-    def __init__(self, name: str):
-        self.name = name
+    name: str
 
     def __repr__(self) -> str:
         return self.name
