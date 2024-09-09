@@ -5,7 +5,7 @@ EC := uvx --from editorconfig-checker ec
 PYTHON3 := uv run python3
 
 
-.PHONY: check fix test prepare
+.PHONY: check fix test prepare format
 
 prepare:
 	uv sync --all-extras
@@ -20,3 +20,6 @@ fix:
 
 test:
 	$(PYTHON3) -m unittest discover
+
+format:
+	$(RUFF) format $(FILES)
