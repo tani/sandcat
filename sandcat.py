@@ -81,7 +81,7 @@ def translateN(cats: list[Category]) -> Expr:
 def check(cats: list[Category], cat: Category) -> bool:
     lhs = translateN(cats)
     for i in range(1, len(cats)+1):
-        if not satisfiable(Not(Implies(lhs, translate1(cat, i)))):
+        if not satisfiable(Not(Implies(lhs, translate1(cat, i))), algorithm="z3"):
             return True
     return False
 
