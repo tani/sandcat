@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from functools import reduce
 
-from sympy import And, Expr, Implies, Not, Symbol, satisfiable  # type: ignore
+from sympy import And, Expr, Implies, Not, Or, Symbol, satisfiable  # type: ignore
 
 
 class Category(ABC):
@@ -73,13 +73,7 @@ def translateN(cats: list[Category]) -> Expr:
     return lhs
 
 
-def provable(expr: Expr, **kwargs) -> bool:
-    return not satisfiable(Not(expr), **kwargs)
-
-
 def check(cats: list[Category], cat: Category, **kwargs) -> bool:
     lhs = translateN(cats)
-    for i in range(1, len(cats) + 1):
-        if provable(Implies(lhs, translate1(cat, i)), **kwargs):
-            return True
-    return False
+    rhs = reduce(Or, [translate1(cat, i) for i in range(1, len(cats) + 1)])
+    return not satisfiable(Not(Implies(lhs, rhs)), **kwargs)
