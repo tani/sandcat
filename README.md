@@ -1,7 +1,7 @@
-# Sandcat verifier 🐈
+# Sandcat prover 🐈
 
-A CCG verifier implemented with the SMT solver (Z3 prover)
+Lambek caluclus prover powered by SAT/ SMT Solvers
 
 # Copyright
 
-(c) 2023 Masaya Taniguchi @ RIKEN AIP
+(c) 2024 Masaya Taniguchi @ RIKEN AIP
