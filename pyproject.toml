@@ -20,3 +20,8 @@ select = [
     "SIM", # flake8-simplify
     "I",   # isort
 ]
+[tool.basedpyright]
+venvPath = "./"
+venv = ".venv"
+pythonVersion = "3.11"
+typeCheckingMode = "basic"

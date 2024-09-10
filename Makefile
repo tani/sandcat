@@ -1,5 +1,5 @@
 FILES := $(shell find . -maxdepth 1 -name '*.py')
-MYPY := uvx mypy
+PYRIGHT := uvx basedpyright
 RUFF := uvx ruff
 EC := uvx --from editorconfig-checker ec
 PYTHON3 := uv run python3
@@ -12,7 +12,7 @@ prepare:
 
 check:
 	$(EC)
-	$(MYPY) $(FILES)
+	$(PYRIGHT) $(FILES)
 	$(RUFF) check $(FILES)
 
 fix:
