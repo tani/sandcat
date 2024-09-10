@@ -15,5 +15,5 @@ def translate(i: int, cat: Category) -> Expr:
 
 def check(cats: list[Category], cat: Category) -> bool:
     lhs = And(*[translate(i, cat) for (i, cat) in enumerate(cats)])
-    rhs = Or(*[translate(i, cat) for i in range(len(cats))])
+    rhs = Or(*[translate(i, cat) for (i, _) in enumerate(cats)])
     return not satisfiable(Not(Implies(lhs, rhs)))
