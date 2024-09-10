@@ -10,12 +10,15 @@ dependencies = [
 ]
 [tool.ruff.lint]
 select = [
-    "E",   # pycodestyle
+    "E",   # pycodestyle error
     "F",   # Pyflakes
     "UP",  # pyupgrade
     "B",   # flake8-bugbear
     "SIM", # flake8-simplify
     "I",   # isort
+    "W",   # pycodestyle warning
+    "PL",  # pylint
+    "RUF", # ruff
 ]
 [tool.basedpyright]
 venvPath = "./"
