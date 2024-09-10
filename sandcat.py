@@ -62,8 +62,6 @@ def translate(i: int, cat: Category) -> Expr:
             return Implies(translate(i + 1, rhs), translate(i, lhs))
         case Right(lhs, rhs):
             return Implies(translate(i - 1, lhs), translate(i, rhs))
-        case _:
-            raise ValueError(f"Unknown category: {cat}")
 
 
 def check(cats: list[Category], cat: Category, **kwargs) -> bool:
