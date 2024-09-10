@@ -1,5 +1,5 @@
 # sympy_stub.pyi
-from typing import Literal, TypedDict, Unpack
+from typing import Literal, NotRequired, TypedDict, Unpack
 
 class Expr: ...
 
@@ -18,11 +18,13 @@ class Not(Expr):
 class Implies(Expr):
     def __init__(self, lhs: Expr, rhs: Expr) -> None: ...
 
+Solvers = Literal["z3", "minisat22", "dpll2", "dpll", "pycosat"] | None
+
 class SatOpts(TypedDict):
-    algorithms: Literal["z3", "minisat22", "dpll2", "dpll", "pycosat"] | None
+    algorithm: NotRequired[Solvers]
     #all_models: bool
-    minimal: bool
-    use_lra_theory: bool
+    minimal: NotRequired[bool]
+    use_lra_theory: NotRequired[bool]
 
 SatRetval = Literal[False] | dict[Symbol, bool]
 

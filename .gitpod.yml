@@ -3,9 +3,9 @@ tasks:
     - init: curl -LsSf https://astral.sh/uv/install.sh | sh && make prepare
 
 vscode:
-  extensions:
-    - detachhead.basedpyright
-    - ms-python.python
-    - ms-python.debugpy
-    - charliermarsh.ruff
-    - EditorConfig.EditorConfig
+    extensions:
+        - detachhead.basedpyright
+        - ms-python.python
+        - ms-python.debugpy
+        - charliermarsh.ruff
+        - EditorConfig.EditorConfig
