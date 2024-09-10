@@ -13,9 +13,9 @@ def translate(i: int, cat: Category) -> BoolRef:
             return Implies(translate(i - 1, lhs), translate(i, rhs))
 
 
-def check(cats: list[Category], cat: Category) -> bool:
-    lhs = And(*[translate(i, cat) for (i, cat) in enumerate(cats)])
-    rhs = Or(*[translate(i, cat) for (i, _) in enumerate(cats)])
+def check(antecedent: list[Category], succedent: Category) -> bool:
+    lhs = And(*[translate(i, cat) for (i, cat) in enumerate(antecedent)])
+    rhs = Or(*[translate(i, succedent) for (i, _) in enumerate(antecedent)])
     solver = Solver()
     solver.add(Not(Implies(lhs, rhs)))
     return solver.check() == unsat

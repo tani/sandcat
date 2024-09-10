@@ -13,7 +13,7 @@ def translate(i: int, cat: Category) -> Expr:
             return Implies(translate(i - 1, lhs), translate(i, rhs))
 
 
-def check(cats: list[Category], cat: Category) -> bool:
-    lhs = And(*[translate(i, cat) for (i, cat) in enumerate(cats)])
-    rhs = Or(*[translate(i, cat) for (i, _) in enumerate(cats)])
+def check(antecedent: list[Category], succedent: Category) -> bool:
+    lhs = And(*[translate(i, cat) for (i, cat) in enumerate(antecedent)])
+    rhs = Or(*[translate(i, succedent) for (i, _) in enumerate(antecedent)])
     return not satisfiable(Not(Implies(lhs, rhs)))
