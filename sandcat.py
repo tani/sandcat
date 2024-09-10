@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from typing import Any
+from typing import Unpack
 
-from sympy import And, Expr, Implies, Not, Or, Symbol, satisfiable
+from sympy import And, Expr, Implies, Not, Or, SatOpts, Symbol, satisfiable
 
 
 @dataclass(frozen=True)
@@ -65,7 +65,7 @@ def translate(i: int, cat: Category) -> Expr:
             return Implies(translate(i - 1, lhs), translate(i, rhs))
 
 
-def check(cats: list[Category], cat: Category, **kwargs: Any) -> bool:
+def check(cats: list[Category], cat: Category, **kwargs: Unpack[SatOpts]) -> bool:
     lhs = And(*[translate(i, cat) for (i, cat) in enumerate(cats)])
     rhs = Or(*[translate(i, cat) for i in range(len(cats))])
     return not satisfiable(Not(Implies(lhs, rhs)), **kwargs)

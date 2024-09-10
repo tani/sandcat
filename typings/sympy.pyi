@@ -1,8 +1,7 @@
 # sympy_stub.pyi
-from typing import Any
+from typing import Literal, TypedDict, Unpack
 
-class Expr:
-    ...
+class Expr: ...
 
 class Symbol(Expr):
     def __init__(self, name: str) -> None: ...
@@ -19,4 +18,12 @@ class Not(Expr):
 class Implies(Expr):
     def __init__(self, lhs: Expr, rhs: Expr) -> None: ...
 
-def satisfiable(expr: Expr, **kwargs: Any) -> bool: ...
+class SatOpts(TypedDict):
+    algorithms: Literal["z3", "minisat22", "dpll2", "dpll", "pycosat"] | None
+    #all_models: bool
+    minimal: bool
+    use_lra_theory: bool
+
+SatRetval = Literal[False] | dict[Symbol, bool]
+
+def satisfiable(expr: Expr, **kwargs: Unpack[SatOpts]) -> SatRetval: ...
